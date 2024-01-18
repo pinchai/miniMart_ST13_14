@@ -41,3 +41,27 @@ _Step 4:_
     php artisan migrate:fresh --seed
     php artisan serve
 ````
+
+
+### Migration
+_create new table_
+````
+php artisan make:migration create_yourTableName_table
+ex: php artisan make:migration create_customer_table
+````
+
+_edit or add new columns to old table_
+````
+php artisan make:migration add_youcolumnsname_to_yourtable --table=yourTableName
+ex: php artisan make:migration add_columns_gender_to_customer_table --table=customer
+````
+
+_generate table_
+````
+php artisan migrate
+````
+
+_rollback table_
+````
+php artisan migrate:rollback
+````
