@@ -22,7 +22,6 @@ return new class extends Migration
             $table->decimal('sell_out_price', 10, 2);
             $table->unsignedBigInteger('delivery_id');
             $table->decimal('delivery_fee');
-            $table->decimal('delivery_fee');
             $table->decimal('grand_total');
             $table->decimal('total_received');
             $table->text('remark')->nullable();
