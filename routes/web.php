@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/st1314', function () {
-    return view('st13_14');
+    return view('master');
 });
 
