@@ -93,3 +93,13 @@ php artisan migrate:rollback
         Schema::defaultStringLength(191);
     }
 ````
+
+
+````
+#nested menu
+request()->is('companies/*')
+
+#single menu
+{{ url()->current() == url('/') ? 'active' : '' }}
+````
+
