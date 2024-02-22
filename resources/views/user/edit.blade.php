@@ -4,12 +4,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Add User</h1>
+                    <h1 class="m-0">Update User</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Add User</li>
+                        <li class="breadcrumb-item active">Update User</li>
                     </ol>
                 </div>
             </div>
@@ -32,8 +32,9 @@
                         </div>
 
                         <div class="card-body">
-                            <form method="post" action="{{  route('create_user')  }}">
+                            <form method="post" action="{{  route('update_user')  }}">
                                 @csrf
+                                <input type="hidden" name="id" value="{{ $user->id }}">
                                 {{--name--}}
                                 <div class="form-group">
                                     <label for="name">User Name</label>
@@ -42,6 +43,7 @@
                                         class="form-control"
                                         id="name"
                                         name="name"
+                                        value="{{ $user->name }}"
                                     >
                                 </div>
                                 {{--gender--}}
@@ -52,8 +54,8 @@
                                         class="form-control"
                                         name="gender"
                                     >
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
+                                        <option value="male" {{ $user->gender == 'male' ? 'selected' : '' }}>Male</option>
+                                        <option value="female" {{ $user->gender == 'female' ? 'selected' : '' }}>Female</option>
                                     </select>
                                 </div>
                                 {{--phone--}}
@@ -64,6 +66,7 @@
                                         class="form-control"
                                         id="phone"
                                         name="phone"
+                                        value="{{ $user->phone }}"
                                     >
                                 </div>
                                 {{--password--}}
@@ -90,7 +93,7 @@
                                 </div>
 
                                 <button type="reset" class="btn btn-danger">Cancel</button>
-                                <button type="submit" class="btn btn-primary float-right">Save</button>
+                                <button type="submit" class="btn btn-primary float-right">Update</button>
                             </form>
                         </div>
                     </div>

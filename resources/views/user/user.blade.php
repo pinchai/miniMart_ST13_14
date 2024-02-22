@@ -23,10 +23,13 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <button class="btn btn-primary">
-                                <i class="fas fa-plus-circle"></i>
-                                Add
-                            </button>
+                            <a href="{{ route('index_add_user') }}">
+                                <button class="btn btn-primary">
+                                    <i class="fas fa-plus-circle"></i>
+                                    Add
+                                </button>
+                            </a>
+
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -36,6 +39,7 @@
                                         <th>No.</th>
                                         <th>Name</th>
                                         <th>Gender</th>
+                                        <th>Email</th>
                                         <th>Phone</th>
                                         <th>Password</th>
                                         <th>Role</th>
@@ -43,25 +47,29 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach([1,2,3,4,5] as $item)
+                                    @foreach($user as $item)
                                         <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>theara</td>
-                                        <td>male</td>
-                                        <td>099 88 7766</td>
-                                        <td>*********</td>
-                                        <td>Admin</td>
-                                        <td>
-                                            <button class="btn btn-default">
-                                                <i class="far fa-edit"></i>
-                                                Edit
-                                            </button>
-                                            <button class="btn btn-danger">
-                                                <i class="far fa-trash-alt"></i>
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->name }}</td>
+                                            <td>male</td>
+                                            <td>{{ $item->email }}</td>
+                                            <td>099 88 7766</td>
+                                            <td>*********</td>
+                                            <td>Admin</td>
+                                            <td>
+                                                <a href="{{ route('index_edit_user').'?id='.$item->id }}">
+                                                    <button class="btn btn-default">
+                                                        <i class="far fa-edit"></i>
+                                                        Edit
+                                                    </button>
+                                                </a>
+                                                <form method="post" action="{{ route('delete_user')  }}">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{ $item->id }}">
+                                                    <input class="btn btn-danger" type="submit" value="Delete">
+                                                </form>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
