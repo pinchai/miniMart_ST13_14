@@ -12,9 +12,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/login', [App\Http\Controllers\LoginController::class, 'index'])->name('login');
+Route::post('/do_login', [App\Http\Controllers\LoginController::class, 'do_login'])->name('do_login');
 
-Route::get('/', function () {
-    return view('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('admin/dashboard', function () {
+        return view('dashboard');
+    });
+    include 'admin/user.php';
+
+    //logout
+    Route::get('/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
 });
-
-include 'admin/user.php';
