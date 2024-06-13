@@ -1,6 +1,8 @@
 <?php
 Route::get('admin/user', function () {
-    $user = \App\Models\User::all();
+    $user = \App\Models\User::whereNotIn('id',[auth()->user()->id])
+        ->get();
+
     return view('user.user', ['user'=>$user]);
 })->name('user');
 

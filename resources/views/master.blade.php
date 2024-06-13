@@ -109,15 +109,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
                     <li class="nav-item">
-                        <a href="{{ url('admin/dashboard') }}" class="nav-link {{ url()->current() == url('admin/dashboard') ? 'active' : '' }}">
+                        <a href="{{ url('admin/dashboard') }}"
+                           class="nav-link {{ url()->current() == url('admin/dashboard') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-tv"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url('admin/user') }}" class="nav-link {{ url()->current() == url('admin/user') ? 'active' : '' }}">
+                        <a href="{{ url('admin/user') }}"
+                           class="nav-link {{ url()->current() == url('admin/user') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-user-lock"></i>
                             <p>User</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('admin/category') }}"
+                           class="nav-link {{ url()->current() == url('admin/category') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-cubes"></i>
+                            <p>Category</p>
                         </a>
                     </li>
                     <li class="nav-item menu-open1">

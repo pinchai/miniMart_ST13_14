@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     });
     include 'admin/user.php';
+    include 'admin/category.php';
 
     //logout
     Route::get('/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
