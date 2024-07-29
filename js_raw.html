@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>raw js</title>
+</head>
+<style>
+    .text-color {
+        color: red;
+    }
+</style>
+<body>
+<center>
+    <div id="app">
+        <br>
+        <label for="value_a">Value A</label>
+        <input type="number" v-model="value_a" id="value_a" placeholder="Enter value A">
+        <br>
+        <br>
+        <label for="value_b">Value B</label>
+        <input type="number" v-model="value_b" id="value_b" placeholder="Enter value B">
+        <br>
+        <br>
+        <input type="button" @click="sum()" id="sum" value="sum">
+        <input type="button" @click="minus" id="minus" value="minus">
+        <input type="button" @click="multi" id="multiply" value="multiply">
+        <input type="button" @click="divide" id="divide" value="divide">
+        <br>
+        <br>
+        <h1 class="text-color" id="result">Result: {{ result }}</h1>
+    </div>
+</center>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            value_a: 0,
+            value_b: 0,
+            result: 0,
+        },
+        methods: {
+            sum() {
+                this.result = parseFloat(this.value_a) + parseFloat(this.value_b)
+            },
+            minus() {
+                this.result = parseFloat(this.value_a) - parseFloat(this.value_b)
+            },
+            multi() {
+                this.result = parseFloat(this.value_a) * parseFloat(this.value_b)
+            },
+            divide() {
+                this.result = parseFloat(this.value_a) / parseFloat(this.value_b)
+            }
+        }
+    })
+</script>
+</html>

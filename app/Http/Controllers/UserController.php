@@ -25,6 +25,23 @@ class UserController extends Controller
         return redirect(route('user'));
     }
 
+    public function createUserByAPI(Request $request){
+        $name = $request->name;
+        $gender = $request->gender;
+        $phone = $request->phone;
+        $password = '123456789';
+        $role = $request->role;
+
+        $user = new User();
+        $user->name = $name;
+        $user->email = time().'test@mail.com';
+        $user->password = Hash::make($password);
+        $user->save();
+
+        $data = \App\Models\User::all();
+        return response()->json($data);
+    }
+
     public function deleteUser(Request $request){
         $user = User::find($request->id);
         if($user){

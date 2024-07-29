@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+    <title>SUM-CALCULATOR</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-loading-overlay/2.1.7/loadingoverlay.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</head>
+<body>
+<div id="app">
+    <div class="container">
+        <div class="row mt-4">
+            <!-- form-->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="name"
+                                    aria-describedby="emailHelp"
+                                    v-model="name"
+                                >
+                            </div>
+                        </form>
+                        <button
+                            v-if="this.action == 'add'"
+                            @click="saveData"
+                            class="btn btn-primary"
+                        >Save
+                        </button>
+
+                        <button
+                            v-if="this.action == 'edit'"
+                            @click="setEditData"
+                            class="btn btn-primary"
+                        >Update
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- form-->
+            <div class="col-md-8">
+                <div class="table-responsive">
+                    <table class="table table-sm table-border table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr
+                            v-for="(item, index) in this.res_data"
+                            :key="'index_'+index"
+                        >
+                            <td>{{ index + 1 }}</td>
+                            <td>{{ item.name }}</td>
+                            <td>
+                                <button
+                                    @click="editData(item)"
+                                    class="btn btn-sm btn-secondary"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    @click="deleteData(item)"
+                                    class="btn btn-sm btn-danger"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    var vue_obj = new Vue({
+        el: '#app',
+        data: {
+            action: 'add',
+            name: null,
+            gender: 'female',
+            email: null,
+            address: null,
+            student_list: [],
+            product_list: [],
+            res_data: []
+        },
+        methods: {
+            saveData() {
+                if (this.name == null) {
+                    alert('empty name')
+                    return
+                }
+                this.resetForm()
+            },
+            editData(item) {
+                this.id = item.id
+                this.name = item.name
+                this.email = item.email
+                this.address = item.address
+                this.gender = item.gender
+
+                this.action = 'edit'
+            },
+            setEditData() {
+                let id = this.id
+                let found = this.student_list.find(obj => {
+                    return obj.id == id
+                })
+                found.name = this.name
+                found.email = this.email
+                found.address = this.address
+                found.gender = this.gender
+
+                this.action = 'add'
+
+                // reset form data
+                this.resetForm()
+
+            },
+            async deleteData(item) {
+                let smg = `Are you sure? To delete ${item.name}`
+                this.sound('error')
+                await Swal.fire({
+                    title: smg,
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.LoadingOverlay("show");
+                        let url = "http://127.0.0.1:8001/api/deleteRecord"
+                        axios.post(url, {
+                            id: item.id
+                        }).then(response => {
+                            this.sound('success')
+                            Toastify({
+                                text: "This is a toast",
+                                duration: 3000,
+                                destination: "https://github.com/apvarun/toastify-js",
+                                newWindow: true,
+                                close: true,
+                                gravity: "top", // `top` or `bottom`
+                                position: "right", // `left`, `center` or `right`
+                                stopOnFocus: true, // Prevents dismissing of toast on hover
+                                style: {
+                                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                                },
+                                onClick: function () {
+                                } // Callback after click
+                            }).showToast();
+                            this.res_data = response.data
+                            $.LoadingOverlay("hide");
+                        }).catch(function (error) {
+                            alert('error: ' + error.message)
+                        });
+
+
+                    }
+                });
+
+                // send notification
+                $.LoadingOverlay("show");
+                let name = item.name
+                const date = new Date().toISOString().slice(0, 10); // Formats date as YYYY-MM-DD
+                const html = `<strong>❌ Product: ${name}</strong>
+<strong>⏰ Date Time: ${date}</strong>\n
+<strong>😀 Delete By: Dara</strong>
+`;
+                let toked = '7187084464:AAFjq4AWD8Ql57BU9KHM8UMSf-SbPxrkWy8'
+                let chat_id = '@st11_12_channel'
+                // let chat_id = '5795700526'
+                let url = `https://api.telegram.org/bot${toked}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(html)}&parse_mode=HTML`
+                axios.get(url, {}).then(response => {
+                    // this.res_data = response.data
+                    $.LoadingOverlay("hide");
+                }).catch(function (error) {
+                    alert('error: ' + error.message)
+                });
+
+
+            },
+            resetForm() {
+                this.id = null
+                this.name = null
+                this.email = null
+                this.address = null
+                this.gender = 'male'
+            },
+            sound(type) {
+                let click = new Audio('/Users/pinchai/vue_cdn_class/sound/click.mp3');
+                let success = new Audio('/Users/pinchai/vue_cdn_class/sound/success.mp3');
+                let error = new Audio('/Users/pinchai/vue_cdn_class/sound/error.mp3');
+                if (type == 'click') {
+                    click.play()
+                }
+                if (type == 'success') {
+                    success.play()
+                }
+                if (type == 'error') {
+                    error.play()
+                }
+            },
+        },
+        created() {
+            $.LoadingOverlay("show");
+            let url = "http://127.0.0.1:8001/api/getCategory"
+            axios.get(url, {}).then(response => {
+                this.res_data = response.data
+                $.LoadingOverlay("hide");
+            }).catch(function (error) {
+                alert('error: ' + error.message)
+            });
+
+        },
+        mounted() {
+        }
+    });
+</script>
+</html>

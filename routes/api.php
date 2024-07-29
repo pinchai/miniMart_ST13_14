@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+Route::get('get_all_user', function () {
+    $data = \App\Models\User::all();
+    return response()->json($data);
 });
+
+Route::post('create_user_api', [\App\Http\Controllers\UserController::class, 'createUserByAPI']);
