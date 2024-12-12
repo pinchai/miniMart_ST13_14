@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
     });
     include 'admin/user.php';
     include 'admin/category.php';
+    include 'admin/product.php';
 
     //logout
     Route::get('/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');

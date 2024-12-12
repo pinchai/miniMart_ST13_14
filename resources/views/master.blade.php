@@ -129,6 +129,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <p>Category</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ url('admin/product') }}"
+                           class="nav-link {{ url()->current() == url('admin/product') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-project-diagram"></i>
+                            <p>Product</p>
+                        </a>
+                    </li>
                     <li class="nav-item menu-open1">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
