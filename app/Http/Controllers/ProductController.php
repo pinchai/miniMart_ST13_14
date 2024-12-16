@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Hash;
 class ProductController extends Controller
 {
     //
-    public function createProduct(Request $request){
+    public function createProduct(Request $request)
+    {
         $validated = $request->validate([
             'title' => 'required',
             'cost' => 'required',
@@ -38,26 +39,40 @@ class ProductController extends Controller
         return redirect(route('product'));
     }
 
-    public function deleteProduct(Request $request){
+    public function deleteProduct(Request $request)
+    {
         $product = Product::find($request->id);
-        if($product){
+        if ($product) {
             $product->delete();
             return redirect(route('product'));
         }
     }
 
-    public function indexUpdateProduct(Request $request){
+    public function indexUpdateProduct(Request $request)
+    {
         $id = $request->query('id');
         $product = Product::find($id);
-        return view('product.edit', ['product'=>$product]);
+        $category = Category::all();
+        return view('product.edit', [
+            'product' => $product,
+            'category' => $category
+        ]);
     }
 
-    public function updateProduct(Request $request){
+    public function updateProduct(Request $request)
+    {
+//        dd($request->all());
         $id = $request->id;
         $product = Product::find($id);
-        $product->name = $request->name;
-        $product->description = $request->description;
-        $product->save();
+        if ($product) {
+            $product->title = $request->title;
+            $product->cost = $request->cost;
+            $product->price = $request->price;
+            $product->category_id = $request->category_id;
+            $product->image = $request->image_url;
+            $product->description = $request->description;
+            $product->save();
+        }
         return redirect(route('product'));
     }
 }

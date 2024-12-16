@@ -20,8 +20,9 @@ Route::post('admin/create_product', [\App\Http\Controllers\ProductController::cl
 
 Route::get('admin/index_edit_product', [\App\Http\Controllers\ProductController::class, 'indexUpdateProduct'])
     ->name('index_edit_product');
+
 Route::post('admin/update_product', [\App\Http\Controllers\ProductController::class, 'updateProduct'])
     ->name('update_product');
 
-Route::post('admin/delete_product', [\App\Http\Controllers\ProductController::class, 'deleteProduct'])
+Route::get('admin/delete_product', [\App\Http\Controllers\ProductController::class, 'deleteProduct'])
     ->name('delete_product');

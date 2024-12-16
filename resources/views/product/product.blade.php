@@ -63,23 +63,20 @@
                                             <td>{{ $item->category_name }}</td>
                                             <td>{{ $item->description }}</td>
                                             <td>
-                                                <div class="row">
-                                                    <div class="col-3">
-                                                        <a href="{{ route('index_edit_product').'?id='.$item->id }}">
-                                                            <button class="btn btn-default">
-                                                                <i class="far fa-edit"></i>
-                                                                Edit
-                                                            </button>
-                                                        </a>
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <form method="post" action="{{ route('delete_product')  }}">
-                                                            @csrf
-                                                            <input type="hidden" name="id" value="{{ $item->id }}">
-                                                            <input class="btn btn-danger" type="submit" value="Delete">
-                                                        </form>
-                                                    </div>
-                                                </div>
+                                                <a href="{{ route('index_edit_product').'?id='.$item->id }}">
+                                                    <button class="btn btn-default">
+                                                        <i class="far fa-edit"></i>
+                                                        Edit
+                                                    </button>
+                                                </a>
+                                                <a
+                                                    href="#"
+                                                    class="btn btn-danger"
+                                                    onclick="deleteProduct({{ $item->id }})"
+                                                >
+                                                    <i class="far fa-trash-alt"></i>
+                                                    delete
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -93,4 +90,15 @@
         </div>
     </div>
     <!-- /.content -->
+@endsection
+
+@section('script')
+    <script>
+        function deleteProduct(id) {
+            let delete_ = confirm('Do you want to delete ?')
+            if (delete_) {
+                window.location.href = "/admin/delete_product?id=" + id;
+            }
+        }
+    </script>
 @endsection

@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/login', [App\Http\Controllers\LoginController::class, 'index'])->name('login');
 Route::post('/do_login', [App\Http\Controllers\LoginController::class, 'do_login'])->name('do_login');
+Route::get('/', function () {
+    return redirect('admin/dashboard');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('admin/dashboard', function () {
