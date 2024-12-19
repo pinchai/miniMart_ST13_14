@@ -18,9 +18,4 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::get('get_all_user', function () {
-    $data = \App\Models\User::all();
-    return response()->json($data);
-});
-
-Route::post('create_user_api', [\App\Http\Controllers\UserController::class, 'createUserByAPI']);
+include 'api/product.php';
