@@ -5,6 +5,4 @@ Route::get('/products', function () {
         ->get();
     return response()->json($product);
 });
-Route::post('/create_product', [\App\Http\Controllers\ProductController::class, 'createProduct']);
-Route::post('/update_product', [\App\Http\Controllers\ProductController::class, 'updateProduct']);
-Route::get('/delete_product', [\App\Http\Controllers\ProductController::class, 'deleteProduct']);
+Route::get('/product_detail', [\App\Http\Controllers\ProductController::class, 'getProductDetail']);

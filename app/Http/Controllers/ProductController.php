@@ -6,7 +6,9 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -74,5 +76,14 @@ class ProductController extends Controller
             $product->save();
         }
         return redirect(route('product'));
+    }
+
+    public function getProductDetail(Request $request){
+        $data = DB::table('product')
+            ->select('*')
+            ->where('id', $request->id)
+            ->first();
+        return response()->json($data);
+
     }
 }
